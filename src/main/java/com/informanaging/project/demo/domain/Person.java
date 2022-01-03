@@ -1,8 +1,6 @@
 package com.informanaging.project.demo.domain;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,14 +11,19 @@ import java.time.LocalDate;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@RequiredArgsConstructor
 public class Person {
 
     @Id
     @GeneratedValue // 자동 생성(AUTO)
     private Long id;
 
+    @NonNull // - RequiredArgsConstructor
     private String name;
 
+    @NonNull // - RequiredArgsConstructor
     private int age;
 
     private String hobby;
@@ -35,6 +38,30 @@ public class Person {
 
     @ToString.Exclude
     private String phoneNumber;
+
+    @Override
+    public boolean equals(Object object) {
+        if (object == null) {
+            return false;
+        }
+
+        Person person = (Person) object;
+
+        if (!person.getName().equals(this.getName())) {
+            return false;
+        }
+
+        if (person.getAge() != this.getAge()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return (name + age).hashCode();
+    }
 
     @Override
     public String toString() {
