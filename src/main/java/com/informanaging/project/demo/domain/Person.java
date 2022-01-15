@@ -9,11 +9,10 @@ import java.time.LocalDate;
 
 
 @Entity
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @RequiredArgsConstructor
+@Data
 public class Person {
 
     @Id
@@ -28,6 +27,7 @@ public class Person {
 
     private String hobby;
 
+    @NonNull
     private String bloodType;
 
     private String address;
@@ -38,42 +38,4 @@ public class Person {
 
     @ToString.Exclude
     private String phoneNumber;
-
-    @Override
-    public boolean equals(Object object) {
-        if (object == null) {
-            return false;
-        }
-
-        Person person = (Person) object;
-
-        if (!person.getName().equals(this.getName())) {
-            return false;
-        }
-
-        if (person.getAge() != this.getAge()) {
-            return false;
-        }
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        return (name + age).hashCode();
-    }
-
-    @Override
-    public String toString() {
-        return "Person{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", age=" + age +
-                ", hobby='" + hobby + '\'' +
-                ", bloodType='" + bloodType + '\'' +
-                ", address='" + address + '\'' +
-                ", birthday=" + birthday +
-                ", job='" + job + '\'' +
-                '}';
-    }
 }
