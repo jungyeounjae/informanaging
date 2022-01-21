@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import java.time.LocalDate;
 
 
@@ -39,6 +40,7 @@ public class Person {
     @ToString.Exclude
     private String phoneNumber;
 
-    private boolean block;
+    @OneToOne
+    private Block block; // personオブジェクトに対してブロックをしたか、してなかったかを確認するpropertyなのでOne-to-one
 
 }

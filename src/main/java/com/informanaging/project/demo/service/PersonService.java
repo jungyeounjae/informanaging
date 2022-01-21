@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class PersonService {
@@ -21,11 +22,11 @@ public class PersonService {
 
     public List<Person> getPeopleExcludeBlocks() {
         List<Person> people = personRepository.findAll();
-        List<Block> blocks = blockRepository.findAll();
+         List<Block> blocks = blockRepository.findAll();
         // blocks객체를 순회하면서 block객체의 Getname을 실행
-        // map은 리턴 값이 STReam이기 때문에 collect를 실
-        List<String> blockNames = blocks.stream().map(Block::getName).collect(Collectors.toList());
+        // map은 리턴 값이 STReam이기 때문에 collect를 실행
+//         List<String> blockNames = blocks.stream().map(Block::getName).collect(Collectors.toList());
 
-        return people.stream().filter(person -> !blockNames.contains(person.getName())).collect(Collectors.toList());
+        return people.stream().filter(person -> person.getBlock() == null).collect(Collectors.toList());
     }
 }

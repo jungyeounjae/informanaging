@@ -1,10 +1,9 @@
 package com.informanaging.project.demo.domain;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.time.LocalDate;
 
@@ -13,12 +12,15 @@ import java.time.LocalDate;
  */
 @Entity
 @Data
+@NoArgsConstructor
+@RequiredArgsConstructor
 public class Block {
 
     @Id
-    @Getter
+    @GeneratedValue
     private Long id;
 
+    @NonNull
     private String name;
 
     private LocalDate blockStartDate;
