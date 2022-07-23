@@ -34,6 +34,16 @@ class PersonServiceTest {
     }
 
     @Test
+    void getPeopleByName() {
+        givenPeople();
+
+        List<Person> result = personService.getPeopleByName("martin");
+
+        result.forEach(System.out::println);
+
+    }
+
+    @Test
     void cascadeTest() {
         givenPeople();
 
@@ -68,7 +78,7 @@ class PersonServiceTest {
     private void givenPeople() {
         givenPerson("martin", 10, "A");
         givenPerson("david", 9, "B");
-        givenPerson("dennis", 7, "O");
+        givenBlockPerson("dennis", 7, "O");
         givenBlockPerson("martin", 11, "AB");
     }
 

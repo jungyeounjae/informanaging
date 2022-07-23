@@ -26,11 +26,12 @@ public class PersonService {
     public List<Person> getPeopleExcludeBlocks() {
         List<Person> people = personRepository.findAll();
          List<Block> blocks = blockRepository.findAll();
-        // blocks객체를 순회하면서 block객체의 Getname을 실행
-        // map은 리턴 값이 STReam이기 때문에 collect를 실행
+        // blocks 객체를 순회 하면서 block 객체의 GetName 을 실행
+        // map 은 리턴 값이 Stream 이기 때문에 collect 를 실행
 //         List<String> blockNames = blocks.stream().map(Block::getName).collect(Collectors.toList());
+//        return people.stream().filter(person -> person.getBlock() == null).collect(Collectors.toList());
 
-        return people.stream().filter(person -> person.getBlock() == null).collect(Collectors.toList());
+        return personRepository.findByBlockIsNull();
     }
 
     @Transactional
@@ -39,5 +40,13 @@ public class PersonService {
 
         log.info("person : {}", person);
         return person;
+    }
+
+    public List<Person> getPeopleByName(String name) {
+//        List<Person> people = personRepository.findAll();
+//
+//        return people.stream().filter(person -> person.getName().equals(name)).collect(Collectors.toList());
+
+        return personRepository.findByName(name);
     }
 }
