@@ -1,10 +1,10 @@
 package com.informanaging.project.demo.domain;
 
+import com.informanaging.project.demo.domain.dto.Birthday;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-
 
 @Entity
 @NoArgsConstructor
@@ -30,7 +30,8 @@ public class Person {
 
     private String address;
 
-    private LocalDate birthday;
+    @Embedded
+    private Birthday birthday;
 
     private String job;
 
