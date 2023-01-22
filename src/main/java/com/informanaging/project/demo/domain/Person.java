@@ -4,7 +4,8 @@ import com.informanaging.project.demo.domain.dto.Birthday;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import javax.validation.Valid;
+import javax.validation.Valid;
 
 @Entity
 @NoArgsConstructor
@@ -30,6 +31,7 @@ public class Person {
 
     private String address;
 
+    @Valid
     @Embedded
     private Birthday birthday;
 
