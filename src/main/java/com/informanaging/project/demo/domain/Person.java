@@ -5,7 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.Valid;
-import javax.validation.Valid;
+
 
 @Entity
 @NoArgsConstructor
@@ -15,7 +15,7 @@ import javax.validation.Valid;
 public class Person {
 
     @Id
-    @GeneratedValue // 자동 생성(AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // 자동 생성(AUTO)
     private Long id;
 
     @NonNull // - RequiredArgsConstructor
@@ -41,7 +41,7 @@ public class Person {
     private String phoneNumber;
 
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,CascadeType.REMOVE}, orphanRemoval = true, fetch = FetchType.LAZY) // persistence
-    @ToString.Exclude
+    @ToString.Exclude // 해당 필드의 출력을 제외시켜준다
     private Block block; // personオブジェクトに対してブロックをしたか、してなかったかを確認するpropertyなのでOne-to-one
 
     // lazy : block 값이 필요 할 때만 사용된다.

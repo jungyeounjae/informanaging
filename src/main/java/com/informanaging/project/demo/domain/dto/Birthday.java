@@ -14,11 +14,15 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Data
 public class Birthday {
-    private int yearOfBirthday;
+    private Integer yearOfBirthday; // intはnull値がダメが、Integer typeはできる。
 
-    private int monthOfBirthday;
+    @Min(1)
+    @Max(12)
+    private Integer monthOfBirthday;
 
-    private int dayOfBirthday;
+    @Min(1)
+    @Max(31)
+    private Integer dayOfBirthday;
 
     public Birthday(LocalDate birthday) {
         this.yearOfBirthday = birthday.getYear();
