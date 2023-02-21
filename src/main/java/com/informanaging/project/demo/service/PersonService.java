@@ -1,7 +1,9 @@
 package com.informanaging.project.demo.service;
 
+import com.informanaging.project.demo.controller.dto.PersonDto;
 import com.informanaging.project.demo.domain.Block;
 import com.informanaging.project.demo.domain.Person;
+import com.informanaging.project.demo.domain.dto.Birthday;
 import com.informanaging.project.demo.repository.BlockRepository;
 import com.informanaging.project.demo.repository.PersonRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -36,9 +39,10 @@ public class PersonService {
 
     @Transactional
     public Person getPerson(Long id) {
-        Person person = personRepository.findById(id).get();
+        Person person = personRepository.findById(id).orElse(null);
 
         log.info("person : {}", person);
+
         return person;
     }
 
@@ -47,5 +51,32 @@ public class PersonService {
 //        return people.stream().filter(person -> person.getName().equals(name)).collect(Collectors.toList());
 
         return personRepository.findByName(name);
+    }
+
+    @Transactional
+    public void put(Person person) {
+        personRepository.save(person);
+    }
+
+    @Transactional
+    public void modify(Long id, PersonDto personDto) {
+        Person person = personRepository.findById(id).orElseThrow(() -> new RuntimeException("id is not existed"));
+
+        if (!person.getName().equals(personDto.getName())) {
+            throw new RuntimeException("名前が違います");
+        }
+
+        person.set(personDto);
+
+        personRepository.save(person);
+    }
+
+    @Transactional
+    public void modify(Long id, String name) {
+        Person person = personRepository.findById(id).orElseThrow(() -> new RuntimeException("not existed id"));
+
+        person.setName(name);
+
+        personRepository.save(person);
     }
 }
