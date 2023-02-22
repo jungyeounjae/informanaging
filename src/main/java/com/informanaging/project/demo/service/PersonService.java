@@ -79,4 +79,16 @@ public class PersonService {
 
         personRepository.save(person);
     }
+
+    @Transactional
+    public void delete(Long id) {
+
+//      personRepository.deleteById(id); hard delete
+
+        Person person = personRepository.findById(id).orElseThrow(() -> new RuntimeException("not existed id"));
+        // soft delete
+        person.setDeleted(true);
+
+        personRepository.save(person);
+    }
 }

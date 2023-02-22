@@ -4,6 +4,8 @@ import com.informanaging.project.demo.controller.dto.PersonDto;
 import com.informanaging.project.demo.domain.dto.Birthday;
 import lombok.*;
 import org.h2.util.StringUtils;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.Where;
 import org.springframework.util.StringUtils.*;
 
 import javax.persistence.*;
@@ -17,6 +19,7 @@ import javax.validation.constraints.NotEmpty;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Data
+@Where(clause = "deleted = false")
 public class Person {
 
     @Id
@@ -50,6 +53,9 @@ public class Person {
 
     @ToString.Exclude
     private String phoneNumber;
+
+    @ColumnDefault("0") // 0 == false, true이면 삭제로 간주다
+    private boolean deleted;
 
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,CascadeType.REMOVE}, orphanRemoval = true, fetch = FetchType.LAZY) // persistence
     @ToString.Exclude // 해당 필드의 출력을 제외시켜준다

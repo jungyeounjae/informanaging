@@ -18,14 +18,18 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
 
     List<Person> findByBloodType(String bloodType);
 
-    @Query(value = "select person from Person person where person.birthday.monthOfBirthday =?1") //JPQL , 엔티티 기반으로 실행시킨다, person.get birthday get monthof... ?1은 첫번째 인자
-    List<Person> findByMonthOfBirthday(@Param("monthOfBirthday") int monthOfBirthday);
+    //@Query(value = "select person from Person person where person.birthday.monthOfBirthday =?1") //JPQL , 엔티티 기반으로 실행시킨다（person→birthday→monthofbirthday） / ?1은 첫번째 인자
+//    List<Person> findByMonthOfBirthday(@Param("monthOfBirthday") int monthOfBirthday);
 
     // ?1가 아닌 문자열로 표현하고 싶으면 @Param을 사용한다
-    // @Query(value = "select person from Person person where person.birthday.monthOfBirthday = :monthOfBirthday and pers면on.birtday.dayOfBirthday = :dayOfBirthday")
+     @Query(value = "select person from Person person where person.birthday.monthOfBirthday = :monthOfBirthday")
+    List<Person> findByMonthOfBirthday(@Param("monthOfBirthday") int monthOfBirthday);
 
     // nativequery를 사용하면 네이티브 쿼리로 사용가능
-    // @Query(value = "select * from Person person where person.birthday.monthOfBirthday =?1 and person.birtday.dayOfBirthday =?2", nativeQuery = true)
+    // @Query(value = "select * from Person person where person.birthday.monthOfBirthday =?1 and person.birthday.dayOfBirthday =?2", nativeQuery = true)
     // 그러면 value = "select * from person where month_of_birthday = :monthOfBirthday and day_of_birthday=:dayOfBirthday" 로 가능하다!
+
+    @Query(value = "select person from Person person where person.deleted = true", nativeQuery = true) // nativeQuery를 설정하면 해당 QUERY만 실행된다(person의 @Wherer가 샐행안됨)
+    List<Person> findPeopleDeleted();
 
 }

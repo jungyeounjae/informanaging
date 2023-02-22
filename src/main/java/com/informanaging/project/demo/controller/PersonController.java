@@ -21,7 +21,7 @@ public class PersonController {
 
     @GetMapping
     @RequestMapping(value = "/{id}") // /api/person/{id}의 특정 위치에 있는 값을 PathVariable 로 받겠다는 의미이다. id 와  {id} 가 mapping된
-//    @GetMapping("/{id{")
+//    @GetMapping("/{id}")
     public Person getPerson(@PathVariable Long id) {
         return personService.getPerson(id);
     }
@@ -36,7 +36,6 @@ public class PersonController {
         log.info("person -> {}", personRepository.findAll());
     }
 
-    // JSON body를 받기 위해선 @RequestBody 명
     @PutMapping("/{id}")
     public void modifyPerson(@PathVariable Long id, @RequestBody PersonDto person){
         personService.modify(id, person);
@@ -49,7 +48,10 @@ public class PersonController {
         personService.modify(id, name);
         log.info("person -> {}", personRepository.findAll());
     }
+
+    @DeleteMapping("/{id}")
+    public void deletePerson(@PathVariable Long id) {
+        personService.delete(id);
+        log.info("person -> {}", personRepository.findAll());
+    }
 }
-
-
-
