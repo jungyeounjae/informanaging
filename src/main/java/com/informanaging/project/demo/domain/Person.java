@@ -12,6 +12,7 @@ import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
+import java.time.LocalDate;
 
 
 @Entity
@@ -31,10 +32,6 @@ public class Person {
     @NotEmpty
     @Column(nullable = false)
     private String name;
-
-    @NonNull // - RequiredArgsConstructor
-    @Min(1)
-    private int age;
 
     private String hobby;
 
@@ -61,15 +58,7 @@ public class Person {
     @ToString.Exclude // 해당 필드의 출력을 제외시켜준다
     private Block block; // personオブジェクトに対してブロックをしたか、してなかったかを確認するpropertyなのでOne-to-one
 
-    // lazy : block 값이 필요 할 때만 사용된다.
-
     public void set(PersonDto personDto) {
-        // ageはintなので、ageがnullだったら、自動的に0が入ります。
-        // 0の場合は、設定しないとの意味。
-        if (personDto.getAge() != 0) {
-            this.setAge(personDto.getAge());
-        }
-
         if(!StringUtils.isNullOrEmpty(personDto.getHobby())) {
             this.setHobby(personDto.getHobby());
         }
@@ -89,5 +78,18 @@ public class Person {
         if(!StringUtils.isNullOrEmpty(personDto.getJob())) {
             this.setJob(personDto.getJob());
         }
+    }
+
+    // dynamicデータはgetter()より、値を取得した方がいい。
+    public Integer getAge() {
+        if (this.birthday != null) {
+            return LocalDate.now().getYear() - this.birthday.getYearOfBirthday() + 1;
+        } else {
+            return null;
+        }
+    }
+
+    public boolean isBirthdayToday() {
+        return LocalDate.now().equals(LocalDate.of(this.birthday.getYearOfBirthday(), this.birthday.getMonthOfBirthday(), this.birthday.getDayOfBirthday()));
     }
 }
